@@ -18,15 +18,15 @@ module.exports = function (app) {
 // });
 
 router.get('/', function (req, res, next) {
-  correct = 0;
-  total = 0;
   res.render('index', {
     title: 'Human Algorithms'
   });
 });
 
 router.get('/start', function (req, res, next) {
-    res.render('start');
+  correct = 0;
+  total = 0;
+  res.render('start');
 });
 
 router.get('/about', function (req, res, next) {
