@@ -1,0 +1,18 @@
+{{> navbar }}
+
+<h1>{{title}}</h1>
+
+<ul>
+ 	<form action="/startSection/{{section}}/questions/{{nextQuestion}}" method="POST">
+ 		<input name="correctAnswer" value="{{correctAnswer}}" hidden>
+		{{#each answers}}
+			<div>
+				<input type="radio" class="form-control" name="answer" value="{{this}}"> {{this}}
+			</div>
+			<br>
+		 {{/each}}
+	    <div class="box-footer">
+	        <button type="submit" class="btn btn-info pull-left">Submit</button>
+	    </div>
+    </form> 
+</ul>
