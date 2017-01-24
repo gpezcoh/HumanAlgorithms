@@ -27,7 +27,7 @@ var config = {
       name: 'humanalgorithms'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/humanalgorithms-production'
+    db: process.env.MONGODB_URI
   }
 };
 
