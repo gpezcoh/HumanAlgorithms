@@ -20,7 +20,8 @@
     "method-override": "^2.3.0",
     "glob": "^6.0.4",
     "mongoose": "^4.1.2",
-    "express-handlebars": "^3.0.0"
+    "express-handlebars": "^3.0.0",
+    "underscore": "*"
   },
   "devDependencies": {
     "chai": "^3.5.0",
