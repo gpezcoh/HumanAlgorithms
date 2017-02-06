@@ -3,7 +3,7 @@
 <h1>{{title}}</h1>
 
 <ul>
- 	<form action="/startSection/{{section}}/questions/{{nextQuestion}}" method="POST">
+ 	<form action="/test/{{test}}/startSection/{{section}}" method="POST">
  		<input name="correctAnswer" value="{{correctAnswer}}" hidden>
 		{{#each answers}}
 			<div>

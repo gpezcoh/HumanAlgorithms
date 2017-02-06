@@ -1,0 +1,32 @@
+{{> navbar }}
+
+<h1>Create Question</h1>
+
+{{#if created}}
+	<div class="alert alert-success" role="alert">Question Created!</div>
+{{/if}}
+
+<ul>
+ 	<form action="/createQuestion" method="POST">
+		<div>
+			<input type="text" class="form-control" name="title" placeholder="Question" required>
+		</div>
+		<br>
+		<input type="text" class="form-control" name="answer1" placeholder="Answer" required>
+		<input type="text" class="form-control" name="answer2" placeholder="Answer" required>
+		<input type="text" class="form-control" name="answer3" placeholder="Answer" required>
+		<input type="text" class="form-control" name="answer4" placeholder="Answer" required>
+		<br>
+		<div>
+			<input type="text" class="form-control" name="correctAnswer" placeholder="Correct Answer" required>
+		</div>
+		<br>
+		<div>
+			<input type="text" class="form-control" name="section" placeholder="Section" required>
+		</div>
+		<br>
+	    <div class="box-footer">
+	        <button type="submit" class="btn btn-info pull-left">Submit</button>
+	    </div>
+    </form> 
+</ul>
