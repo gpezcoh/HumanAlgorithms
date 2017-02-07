@@ -8,26 +8,64 @@ module.exports = function (app) {
   app.use('/', router);
 };
 
-router.get('/createQuestion', function (req, res, next) {
-	res.render("createQuestion")
+router.get('/createQuestion/:sectionNumber', function (req, res, next) {
+	res.render("createQuestion",{
+		section: req.params.sectionNumber
+	});
 });
 
 router.post('/createQuestion', function (req, res, next) {
-	var answers = [req.body.answer1, req.body.answer2, 
-	req.body.answer3, req.body.answer4]
+	var answers = parseAnswers([req.body.answer1, req.body.answer2, 
+	req.body.answer3, req.body.answer4]);
 	var question = new Question ({
 		title: req.body.title,
 		answers: answers,
-		section: req.body.section,
-		correctAnswer: req.body.correctAnswer
+		section: req.body.section - 0,
+		correctAnswer: parseCorrect(req.body.correctAnswer),
+		answerType: req.body.answerType
 	})
+	console.log(question)
 	question.save(function (err) {
             if (err) return console.error(err);
+            	res.render("createQuestion", {
+					created: true
+				})
           });
-	res.render("createQuestion", {
-		created: true
-	})
 });
+
+function parseCorrect(answer){
+	switch(answer){
+		case "dog":
+			return "/img/dog.jpg";
+		case "apple":
+			return "/img/apple.jpg";
+		case "sun":
+			return "/img/sun.png";
+		case "book":
+			return "/img/book.jpg";	
+	}
+}
+
+function parseAnswers(answers){
+	var newAnswers = [];
+	for(x in answers){
+		switch(answers[x]){
+			case "dog":
+				newAnswers.push("/img/dog.jpg");
+				break;
+			case "apple":
+				newAnswers.push("/img/apple.jpg");
+				break;
+			case "sun":
+				newAnswers.push("/img/sun.png");
+				break;
+			case "book":
+				newAnswers.push("/img/book.jpg");
+				break;
+		}
+	}
+	return newAnswers;
+}
 
 router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 	console.log("here")
@@ -53,29 +91,14 @@ router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 	       	test: test.id
 	      });
 	    }
-	  //   if(req.params.questionNumber - 0 < 4){
-			// var question = test.questions[0]
-			// res.render('questions', {
-			// 	section: req.params.sectionNumber,
-			// 	nextSection : req.params.sectionNumber - 0 + 1,
-			// 	title: question.title,
-			// 	answers: question.answers,
-			// 	correctAnswer: question.correctAnswer,
-			// 	nextQuestion : req.params.questionNumber - 0 + 1,	
-			// });
-	  //   }
-	  //   else{
-	  //     res.render('sectionEnd', {
-	  //       section: req.params.sectionNumber,
-	  //      	nextSection : req.params.sectionNumber - 0 + 1
-	  //     });
-	  //   }
 	});
   });
 
-router.post('/test/:test/startSection/:sectionNumber', function (req, res, next) {
+router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 	Test.findById(req.params.test).populate('questions').exec(function(err, test) {
 		test.total++
+		console.log(req.body.correctAnswer)
+		console.log(req.body.answer)
 		if(req.body.correctAnswer === req.body.answer){
 			test.correct++;
 		}
@@ -100,25 +123,4 @@ router.post('/test/:test/startSection/:sectionNumber', function (req, res, next)
 	      });
 	    }
 	});
-	// total++;
-	// if(req.body.correctAnswer === req.body.answer){
-	// 	correct++;
-	// }
-	// if(req.params.questionNumber - 0 < 4){
-	// 	var question = Question.createQuestion(1,10);
-	// 	res.render('questions', {
-	// 		section: req.params.sectionNumber,
-	// 		nextSection : req.params.sectionNumber - 0 + 1,
-	// 		title: question.title,
-	// 		answers: question.answers,
-	// 		correctAnswer: question.correctAnswer,
-	// 		nextQuestion : req.params.questionNumber - 0 + 1,	
-	// 	});
- //    }
- //    else{
- //      res.render('sectionEnd', {
- //        section: req.params.sectionNumber,
- //       	nextSection : req.params.sectionNumber - 0 + 1
- //      });
- //    }
 });

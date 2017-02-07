@@ -6,9 +6,10 @@ var mongoose = require('mongoose'),
 var QuestionSchema = new Schema({
   title: String,
   answers: [String],
-  correctAnswer: Number,
+  correctAnswer: String,
   section: Number,
-  number: Number
+  number: Number,
+  answerType: String
 });
 
 QuestionSchema.statics.createQuestion = function(min, max){

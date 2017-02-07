@@ -34,6 +34,7 @@ router.get('/start', function (req, res, next) {
     sections: 1
   });
   Question.find({section: 1}, function(err,questions){
+    console.log(questions)
     addQuestions(test,questions);
     // var question = Question.createQuestion()
     console.log(test);

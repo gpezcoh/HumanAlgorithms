@@ -1,18 +1,22 @@
 {{> navbar }}
 
-<h1>{{title}}</h1>
+<script src="/js/index.js"></script>
 
+<!-- <h1>{{title}}</h1>
+ -->
+<button onclick=readQuestion("{{title}}")> Read Question!</button>
 <ul>
- 	<form action="/test/{{test}}/startSection/{{section}}" method="POST">
+ 	<form action="/test/{{test}}/inSection/{{section}}" method="POST">
  		<input name="correctAnswer" value="{{correctAnswer}}" hidden>
+ 		{{#equal section 1}}
 		{{#each answers}}
-			<div>
-				<input type="radio" class="form-control" name="answer" value="{{this}}"> {{this}}
-			</div>
-			<br>
+			<span>
+				<input type="radio" class="form-control" name="answer" value="{{this}}"> <img class="section1Image" src="{{this}}">
+			</span>
 		 {{/each}}
 	    <div class="box-footer">
 	        <button type="submit" class="btn btn-info pull-left">Submit</button>
 	    </div>
+	    {{/equal}}
     </form> 
 </ul>
