@@ -34,12 +34,16 @@ router.get('/start', function (req, res, next) {
     sections: 1
   });
   Question.find({section: 1}, function(err,questions){
-    console.log(questions)
-    addQuestions(test,questions);
+    addQuestions(test,questions,4);
     // var question = Question.createQuestion()
-    console.log(test);
-    test.save(function (err,test) {
-      res.redirect('/start/test/' + test.id);
+    Question.find({section: 2}, function(err,questions){
+      addQuestions(test,questions,1);
+      Question.find({section: 3}, function(err,questions){
+      addQuestions(test,questions,4);
+        test.save(function (err,test) {
+          res.redirect('/start/test/' + test.id);
+        });
+      });
     });
   });
 });
@@ -50,12 +54,11 @@ router.get('/start/test/:test', function (req, res, next) {
   })
 });
 
-function addQuestions(test,questions){
-    for(var i = 0; i < 4; ++i){
+function addQuestions(test,questions,number){
+    for(var i = 0; i < number; ++i){
       var index = Math.floor(Math.random()*questions.length)
       test.questions.push(questions[index].id)
       questions.splice(index,1);
-      console.log(questions)
     }
 }
 
@@ -64,14 +67,28 @@ router.get('/about', function (req, res, next) {
 });
 
 router.get('/test/:test/startSection/:sectionNumber', function (req, res, next) {
-  Test.findById(req.params.test, function(err, test) {
-    console.log("im here")
-    console.log(test.questions)
+  Test.findById(req.params.test).populate('questions').exec(function(err, test) {
     if(test.questions.length){
-      res.render('sectionInstructions', {
-        section: req.params.sectionNumber,
-        nextSection : req.params.sectionNumber - 0 + 1,
-        test: test.id
+      while(test.questions.length && test.questions[0].section < req.params.sectionNumber){
+        test.questions.splice(0,1);
+        console.log("cut")
+      }
+      test.save(function (err,test) {
+        console.log(test)
+        if(test.questions.length){
+        res.render('sectionInstructions', {
+          section: req.params.sectionNumber,
+          nextSection : req.params.sectionNumber - 0 + 1,
+          test: test.id
+        });
+      }
+      else{
+        res.render('results', {
+          correct: test.correct,
+          total: test.total,
+          test: test.id
+        });
+      }
       });
     }
     else{

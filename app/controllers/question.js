@@ -15,22 +15,33 @@ router.get('/createQuestion/:sectionNumber', function (req, res, next) {
 });
 
 router.post('/createQuestion', function (req, res, next) {
-	var answers = parseAnswers([req.body.answer1, req.body.answer2, 
-	req.body.answer3, req.body.answer4]);
-	var question = new Question ({
-		title: req.body.title,
-		answers: answers,
-		section: req.body.section - 0,
-		correctAnswer: parseCorrect(req.body.correctAnswer),
-		answerType: req.body.answerType
-	})
+	if(req.body.section === "2"){
+		var question = new Question ({
+			title: req.body.color,
+			answers: [],
+			section: req.body.section - 0,
+			correctAnswer: req.body.word,
+			answerType: req.body.answerType
+		})
+	}
+	else{
+		var answers = parseAnswers([req.body.answer1, req.body.answer2, 
+		req.body.answer3, req.body.answer4]);
+		var question = new Question ({
+			title: req.body.title,
+			answers: answers,
+			section: req.body.section - 0,
+			correctAnswer: parseCorrect(req.body.correctAnswer),
+			answerType: req.body.answerType
+		})
+	}
 	console.log(question)
 	question.save(function (err) {
-            if (err) return console.error(err);
-            	res.render("createQuestion", {
-					created: true
-				})
-          });
+	    if (err) return console.error(err);
+	    	res.render("createQuestion", {
+				created: true
+			})
+    });
 });
 
 function parseCorrect(answer){
@@ -67,22 +78,38 @@ function parseAnswers(answers){
 	return newAnswers;
 }
 
+function colorQuestions(){
+	var colors = ["red","orange","yellow","green","blue","purple"];
+	var questions = [];
+	while (questions.length < 10){
+		questions.push(colors[Math.round(Math.random() * (colors.length - 1))]);
+	}
+	return questions;
+}
+
 router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
-	console.log("here")
 	Test.findById(req.params.test).populate('questions').exec(function(err, test) {
-		console.log(test.questions[0])
-		console.log(req.params.sectionNumber)
-		if(test.questions[0].section === req.params.sectionNumber-0){
-			console.log("hello")
+		if(test.questions.length && test.questions[0].section === req.params.sectionNumber-0){
 			var question = test.questions.shift()
 			test.save();
-			res.render('questions', {
-				section: req.params.sectionNumber,
-				title: question.title,
-				answers: question.answers,
-				correctAnswer: question.correctAnswer,
-				test: test.id
-			});
+			if(req.params.sectionNumber-0 === 2){
+				questions = colorQuestions();
+				console.log(questions)
+				res.render('questions', {
+					section: req.params.sectionNumber,
+					questions: questions,
+					test: test.id
+				});
+			}
+			else{
+				res.render('questions', {
+					section: req.params.sectionNumber,
+					title: question.title,
+					answers: question.answers,
+					correctAnswer: question.correctAnswer,
+					test: test.id
+				});
+			}
 	    }
 	    else{
 	      res.render('sectionEnd', {
@@ -94,33 +121,56 @@ router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 	});
   });
 
-router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
-	Test.findById(req.params.test).populate('questions').exec(function(err, test) {
-		test.total++
-		console.log(req.body.correctAnswer)
-		console.log(req.body.answer)
-		if(req.body.correctAnswer === req.body.answer){
+function calculate(test,orig,answers){
+	orig = orig.split(",");
+	answers = answers.split(",");
+	for(var i in orig){
+		test.total++;
+		if(orig[i] === answers[i]){
 			test.correct++;
 		}
-		test.save();
-		console.log(test.questions)
-		console.log(req.params.sectionNumber)
-		if(test.questions.length && test.questions[0].section === req.params.sectionNumber-0){
-			var question = test.questions.shift()
-			res.render('questions', {
-				section: req.params.sectionNumber,
-				title: question.title,
-				answers: question.answers,
-				correctAnswer: question.correctAnswer,
-				test: test.id
-			});
-	    }
-	    else{
-	      res.render('sectionEnd', {
-	        section: req.params.sectionNumber,
-	       	nextSection : req.params.sectionNumber - 0 + 1,
-	       	test: test.id
-	      });
-	    }
+	}
+	return test
+}
+
+router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
+	Test.findById(req.params.test).populate('questions').exec(function(err, test) {
+		if(req.params.sectionNumber - 0 === 2){
+			console.log(req.body.questions)
+			console.log(req.body.speechAnswer)
+			test = calculate(test,req.body.questions,req.body.speechAnswer)
+			test.save();
+			res.render('sectionEnd', {
+		        section: req.params.sectionNumber,
+		       	nextSection : req.params.sectionNumber - 0 + 1,
+		       	test: test.id
+		    });
+		}
+		else{
+			test.total++
+			if(req.body.correctAnswer === req.body.answer){
+				test.correct++;
+			}
+			test.save();
+			console.log(test.questions)
+			console.log(req.params.sectionNumber)
+			if(test.questions.length && test.questions[0].section === req.params.sectionNumber-0){
+				var question = test.questions.shift()
+				res.render('questions', {
+					section: req.params.sectionNumber,
+					title: question.title,
+					answers: question.answers,
+					correctAnswer: question.correctAnswer,
+					test: test.id
+				});
+		    }
+		    else{
+		      res.render('sectionEnd', {
+		        section: req.params.sectionNumber,
+		       	nextSection : req.params.sectionNumber - 0 + 1,
+		       	test: test.id
+		      });
+		    }
+		}
 	});
 });

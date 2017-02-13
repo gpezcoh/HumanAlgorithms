@@ -28,6 +28,35 @@
 		    </div>
 		{{/equal}}
 		{{#equal section 2}}
+			<input name="answerType" value="text" hidden>
+			<div>
+				<input type="text" class="form-control" name="word" placeholder="Word" required>
+			</div>
+			<br>
+			<div>
+				<input type="text" class="form-control" name="color" placeholder="Color" required>
+			</div>
+		    <div class="box-footer">
+		        <button type="submit" class="btn btn-info pull-left">Submit</button>
+		    </div>
+		{{/equal}}
+		{{#equal section 3}}
+ 		 <input name="answerType" value="image" hidden>
+			<div>
+				<input type="text" class="form-control" name="title" placeholder="Sounds like?" required>
+			</div>
+			<br>
+			<input type="text" class="form-control" name="answer1" placeholder="Image Url" required>
+			<input type="text" class="form-control" name="answer2" placeholder="Image Url" required>
+			<input type="text" class="form-control" name="answer3" placeholder="Image Url" required>
+			<input type="text" class="form-control" name="answer4" placeholder="Image Url" required>
+			<br>
+			<div>
+				<input type="text" class="form-control" name="correctAnswer" placeholder="Correct Answer" required>
+			</div>
+		    <div class="box-footer">
+		        <button type="submit" class="btn btn-info pull-left">Submit</button>
+		    </div>
 		{{/equal}}
     </form> 
 </ul>

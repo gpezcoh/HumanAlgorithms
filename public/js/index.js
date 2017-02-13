@@ -1,9 +1,13 @@
-function readQuestion(question) {
-	var word = findWord(question)
-	var msg = new SpeechSynthesisUtterance("Which of these is " + word);
-	window.speechSynthesis.speak(msg);
+function readFirstQuestion(question) {
+		var word = findWord(question)
+		var msg = new SpeechSynthesisUtterance("Which of these is " + word);
+		window.speechSynthesis.speak(msg);
 }
 
+function readThirdQuestion(question) {
+	var msg = new SpeechSynthesisUtterance("Which of these words has the same sound as " + question);
+	window.speechSynthesis.speak(msg);
+}
 function wtf(arg){
 	console.log("hello")
 }

@@ -1,10 +1,21 @@
 {{> navbar }}
 
 <script src="/js/index.js"></script>
+<script src="/js/test.js"></script>
 
 <!-- <h1>{{title}}</h1>
  -->
-<button onclick=readQuestion("{{title}}")> Read Question!</button>
+{{#equal section 1}}
+  		<button onclick=readFirstQuestion("{{title}}")> Read Question!</button>
+{{/equal}}
+{{#equal section 2}}
+	    <button onclick=test()> Speak!</button>
+	   	<button onclick=stop()> Stop!</button>
+{{/equal}}
+{{#equal section 3}}
+  		<button onclick=readThirdQuestion("{{title}}")> Read Question!</button>
+{{/equal}}
+
 <ul>
  	<form action="/test/{{test}}/inSection/{{section}}" method="POST">
  		<input name="correctAnswer" value="{{correctAnswer}}" hidden>
@@ -14,9 +25,25 @@
 				<input type="radio" class="form-control" name="answer" value="{{this}}"> <img class="section1Image" src="{{this}}">
 			</span>
 		 {{/each}}
-	    <div class="box-footer">
+	    {{/equal}}
+	    {{#equal section 2}}
+	    <span>
+	    {{#each questions}}
+	    	<div class="colorBox" style="background-color: {{this}};"></div>
+	    {{/each}}
+	    </span>
+	   	<input name="questions" value="{{questions}}" hidden>
+	   	<input id="speechAnswer" name="speechAnswer" value="test" hidden>
+	    {{/equal}}
+	    {{#equal section 3}}
+		{{#each answers}}
+			<span>
+				<input type="radio" class="form-control" name="answer" value="{{this}}"> <img class="section1Image" src="{{this}}">
+			</span>
+		 {{/each}}
+	    {{/equal}}
+	   	<div class="box-footer">
 	        <button type="submit" class="btn btn-info pull-left">Submit</button>
 	    </div>
-	    {{/equal}}
     </form> 
 </ul>
