@@ -6,10 +6,32 @@ a {
   color: #00B7FF; }
 
 .section1Image {
-  height: 200px;
-  width: 200px; }
+  height: 250px;
+  width: 250px; }
+
+.imageContainer:hover {
+  border: solid 0.2em black; }
 
 .colorBox {
   height: 50px;
   width: 50px;
-  border: solid black 0.2em; }
+  border: solid black 0.2em;
+  display: flex;
+  margin: 10px; }
+
+.container {
+  display: flex;
+  justify-content: center; }
+
+.imageContainer {
+  border: solid 0.2em white;
+  display: flex;
+  height: 500px;
+  width: 300px;
+  padding-top: 100px;
+  justify-content: center; }
+
+.colorContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 100px; }

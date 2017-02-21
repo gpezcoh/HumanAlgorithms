@@ -123,7 +123,7 @@ router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 
 function calculate(test,orig,answers){
 	orig = orig.split(",");
-	answers = answers.split(",");
+	answers = answers.split(" ");
 	for(var i in orig){
 		test.total++;
 		if(orig[i] === answers[i]){
