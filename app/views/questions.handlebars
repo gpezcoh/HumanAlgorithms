@@ -13,10 +13,16 @@
 			    	readFirstQuestion("{{title}}")
 			    }, 1000);
 		});
+		console.log("{{sectionProgress}}")
 	</script>
 {{/equal}}
 {{#equal section 2}}
-	    <button class="btn btn-info pull-left" onclick=speak()> Speak!</button>
+		<script>
+			$( document ).ready(function() {
+				sendCorrect("{{questions}}")
+			});
+		</script>
+	    <button class="btn btn-info pull-left" onclick=speak("{{total}}")> Speak!</button>
 	   	<button class="btn btn-info pull-left" onclick=stop()> Stop!</button>
 {{/equal}}
 {{#equal section 3}}
@@ -34,12 +40,18 @@
  	<form action="/test/{{test}}/inSection/{{section}}" method="POST">
  		<input name="correctAnswer" value="{{correctAnswer}}" hidden>
  		{{#equal section 1}}
+ 		<div class="progress">
+  			<div class="progress-bar" style="width: {{sectionProgress}};"></div>
+  		</div>
  		<div class="container">
 		{{#each answers}}
 			<span class="imageContainer">
 				<input type="image" class="section1Image" name="answer" value="{{this}}" src="{{this}}">
 			</span>
 		 {{/each}}
+		 </div>
+		 <div class="center">
+		 	<a type="btn" class="btn btn-hg btn-embossed btn-inverse" onclick=readFirstQuestion("{{title}}")>Repeat Question</a>
 		 </div>
 	    {{/equal}}
 	    {{#equal section 2}}
@@ -51,16 +63,22 @@
 	   	<input name="questions" value="{{questions}}" hidden>
 	   	<input id="speechAnswer" name="speechAnswer" value="test" hidden>
 	   	<div class="box-footer">
-	        <button type="submit" class="btn btn-info pull-left">Submit</button>
+	        <button type="submit" class="btn btn-embossed btn-primary pull-left">Submit</button>
 	    </div>
 	    {{/equal}}
 	    {{#equal section 3}}
+	    <div class="progress">
+  			<div class="progress-bar" style="width: {{sectionProgress}};"></div>
+  		</div>
  		<div class="container">
 		{{#each answers}}
 			<span class="imageContainer">
 				<input type="image" class="section1Image" name="answer" value="{{this}}" src="{{this}}">
 			</span>
 		 {{/each}}
+		 </div>
+		 <div class="center">
+		 	<a type="btn" class="btn btn-hg btn-embossed btn-inverse" onclick=readThirdQuestion("{{title}}")>Repeat Question</a>
 		 </div>
 	    {{/equal}}
     </form> 

@@ -10,7 +10,10 @@ var TestSchema = new Schema({
 	email: String,
 	// questions: [Question],
 	questions: [{type: Schema.Types.ObjectId, ref: 'Question'}],
-	sections: Number
+	sections: Number,
+	sectionProgress: Number,
+	sectionTotal: Number,
+	sectionLengths: [Number]
 });
 
 // TestSchema.methods.addQuestions = function(sections) {

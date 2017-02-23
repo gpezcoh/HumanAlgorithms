@@ -2,7 +2,8 @@ var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
   Test = mongoose.model('Test'),
-  Question = mongoose.model('Question');
+  Question = mongoose.model('Question'),
+  limit = 10;
 
 module.exports = function (app) {
   app.use('/', router);
@@ -78,10 +79,10 @@ function parseAnswers(answers){
 	return newAnswers;
 }
 
-function colorQuestions(){
+function colorQuestions(limit){
 	var colors = ["red","orange","yellow","green","blue","purple"];
 	var questions = [];
-	while (questions.length < 10){
+	while (questions.length < limit){
 		questions.push(colors[Math.round(Math.random() * (colors.length - 1))]);
 	}
 	return questions;
@@ -90,15 +91,19 @@ function colorQuestions(){
 router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 	Test.findById(req.params.test).populate('questions').exec(function(err, test) {
 		if(test.questions.length && test.questions[0].section === req.params.sectionNumber-0){
+			test.sectionTotal = test.sectionLengths.shift();
+			test.sectionProgress = 0;
 			var question = test.questions.shift()
 			test.save();
+			console.log(test.sectionLengths)
 			if(req.params.sectionNumber-0 === 2){
-				questions = colorQuestions();
+				questions = colorQuestions(limit);
 				console.log(questions)
 				res.render('questions', {
 					section: req.params.sectionNumber,
 					questions: questions,
-					test: test.id
+					test: test.id,
+					total: limit
 				});
 			}
 			else{
@@ -107,11 +112,12 @@ router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 					title: question.title,
 					answers: question.answers,
 					correctAnswer: question.correctAnswer,
-					test: test.id
+					test: test.id,
+					sectionProgress: (test.sectionProgress/test.sectionTotal) * 100 + "%"
 				});
 			}
 	    }
-	    else{
+	    else{ // necessary?
 	      res.render('sectionEnd', {
 	        section: req.params.sectionNumber,
 	       	nextSection : req.params.sectionNumber - 0 + 1,
@@ -123,7 +129,7 @@ router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 
 function calculate(test,orig,answers){
 	orig = orig.split(",");
-	answers = answers.split(" ");
+	answers = answers.split(",");
 	for(var i in orig){
 		test.total++;
 		if(orig[i] === answers[i]){
@@ -139,15 +145,18 @@ router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 			console.log(req.body.questions)
 			console.log(req.body.speechAnswer)
 			test = calculate(test,req.body.questions,req.body.speechAnswer)
+			test.sectionProgress++;
 			test.save();
 			res.render('sectionEnd', {
 		        section: req.params.sectionNumber,
 		       	nextSection : req.params.sectionNumber - 0 + 1,
-		       	test: test.id
+		       	test: test.id,
+		       	sectionProgress: (test.sectionProgress/test.sectionTotal) * 100 + "%"
 		    });
 		}
 		else{
-			test.total++
+			test.total++;
+			test.sectionProgress++;
 			if(req.body.correctAnswer === req.body.answer){
 				test.correct++;
 			}
@@ -161,14 +170,16 @@ router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 					title: question.title,
 					answers: question.answers,
 					correctAnswer: question.correctAnswer,
-					test: test.id
+					test: test.id,
+					sectionProgress: (test.sectionProgress/test.sectionTotal) * 100 + "%"
 				});
 		    }
 		    else{
 		      res.render('sectionEnd', {
 		        section: req.params.sectionNumber,
 		       	nextSection : req.params.sectionNumber - 0 + 1,
-		       	test: test.id
+		       	test: test.id,
+		       	sectionProgress: (test.sectionProgress/test.sectionTotal) * 100 + "%"
 		      });
 		    }
 		}

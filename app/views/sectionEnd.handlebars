@@ -1,5 +1,13 @@
 {{> navbar }}
 
-<h1> Hello, you finished this section, good job!</h1>
+<div class="progress">
+	<div class="progress-bar" style="width: {{sectionProgress}};"></div>
+</div>
 
-<a type="button" class="btn btn-primary" href="/test/{{test}}/startSection/{{nextSection}}">Start next section</a>
+<div class="center" style="margin-bottom: 50px;">
+	<h1>Good Job, you finished the section!</h1>
+</div>
+
+<div class="center">
+	<a type="button" class="btn btn-hg btn-primary" href="/test/{{test}}/startSection/{{nextSection}}">Start the next section</a>
+</div>

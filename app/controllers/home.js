@@ -31,15 +31,18 @@ router.get('/start', function (req, res, next) {
     total: 0,
     email: "",
     questions: [],
-    sections: 1
+    sections: 1,
+    sectionProgress: 0,
+    sectionTotal: 0,
+    sectionLengths: [4,1,4]
   });
   Question.find({section: 1}, function(err,questions){
-    addQuestions(test,questions,4);
+    addQuestions(test,questions,test.sectionLengths[0]);
     // var question = Question.createQuestion()
     Question.find({section: 2}, function(err,questions){
-      addQuestions(test,questions,1);
+      addQuestions(test,questions,test.sectionLengths[1]);
       Question.find({section: 3}, function(err,questions){
-      addQuestions(test,questions,4);
+      addQuestions(test,questions,test.sectionLengths[2]);
         test.save(function (err,test) {
           res.redirect('/start/test/' + test.id);
         });
