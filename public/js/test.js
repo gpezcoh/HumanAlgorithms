@@ -21,6 +21,8 @@ var correct = []
 // }
 
 function speak(limit,ans){
+	document.getElementById("show").style.display = "inline";
+	document.getElementById("hide").style.display = "none";
 	lim = limit - 0;
 	recognition.start();
   	console.log('Ready to receive a color command.');

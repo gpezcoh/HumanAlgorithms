@@ -98,7 +98,8 @@ router.get('/test/:test/startSection/:sectionNumber', function (req, res, next) 
       res.render('results', {
         correct: test.correct,
         total: test.total,
-        test: test.id
+        test: test.id,
+        resultsBar: (test.correct/test.total) * 100 + "%"
       });
     }
   });

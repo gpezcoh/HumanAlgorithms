@@ -22,8 +22,14 @@
 				sendCorrect("{{questions}}")
 			});
 		</script>
-	    <button class="btn btn-info pull-left" onclick=speak("{{total}}")> Speak!</button>
-	   	<button class="btn btn-info pull-left" onclick=stop()> Stop!</button>
+		<div id="hide">
+			<div class="center">
+				<h1> When you're ready to speak, press Start!</h1>
+		    </div>
+		    <div class="center">
+		    	<button class="btn btn-hg btn-inverse pull-left" onclick=speak("{{total}}")> Start</button>
+		    </div>
+		</div>
 {{/equal}}
 {{#equal section 3}}
 	<script>
@@ -55,15 +61,18 @@
 		 </div>
 	    {{/equal}}
 	    {{#equal section 2}}
-	    <span class="colorContainer">
-	    {{#each questions}}
-	    	<span class="colorBox" style="background-color: {{this}};"></span>
-	    {{/each}}
-	    </span>
-	   	<input name="questions" value="{{questions}}" hidden>
-	   	<input id="speechAnswer" name="speechAnswer" value="test" hidden>
-	   	<div class="box-footer">
-	        <button type="submit" class="btn btn-embossed btn-primary pull-left">Submit</button>
+	    <div id="show" style="display: none;">
+		    <span class="colorContainer">
+			    {{#each questions}}
+			    	<span class="colorBox" style="background-color: {{this}};"></span>
+			    {{/each}}
+		    </span>
+		   	<input name="questions" value="{{questions}}" hidden>
+		   	<input id="speechAnswer" name="speechAnswer" value="test" hidden>
+		   	<div class="box-footer center">
+		   		<button class="btn btn-hg btn-inverse pull-left info" onclick=stop()> Done</button>
+	<!-- 	        <button type="submit" class="btn btn-embossed btn-primary pull-left">Submit</button> -->
+		    </div>
 	    </div>
 	    {{/equal}}
 	    {{#equal section 3}}
