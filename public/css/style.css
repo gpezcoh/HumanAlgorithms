@@ -28,9 +28,10 @@ a {
   border: ridge 0.5em #1abc9c; }
 
 .colorBox {
-  height: 50px;
-  width: 50px;
-  border: solid black 0.2em;
+  height: 80px;
+  width: 80px;
+  /*	border: solid black 0.2em;
+*/
   display: flex;
   margin: 10px; }
 
