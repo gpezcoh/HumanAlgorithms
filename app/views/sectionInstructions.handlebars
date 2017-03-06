@@ -5,9 +5,43 @@
 </div>
 <div class="secondary info">
 	<div class="center">
-		<h2> Instructions for section {{section}} </h2>
+		<h2> Instructions </h2>
 	</div>
-	<p>&emsp;&ensp;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id lectus lectus. Nunc vel dui leo. Donec semper mauris sed cursus gravida. Aenean ornare gravida nulla, eu tincidunt tellus tristique vitae. Aenean nec convallis orci. Aliquam urna neque, dignissim id dolor et, elementum pharetra nisl. Sed vel eleifend mi, in venenatis orci. Mauris quis ipsum vulputate, laoreet nibh a, iaculis orci. Pellentesque eget mi eu eros dictum dapibus. Etiam posuere libero ligula, in placerat ligula luctus et. Morbi vel augue sem. Cras in iaculis leo, ut consectetur est.</p>
+	{{#equal section 1}}
+	  <ul>
+	  	<li class="instructions">&emsp;&ensp; In this section, you will be asked a question, and should choose the picture that answers the question
+	  	</li>
+	  	<li class="instructions"> &emsp;&ensp; If you have trouble understanding the question, you can repeat the question
+	  	</li>
+	  	<li class="instructions">
+	  	 &emsp;&ensp; When you're ready to start, click the button below and your time will start running!
+	  	</li>
+	  </ul>
+	{{/equal}}
+	{{#equal section 2}}
+	  <ul>
+	  	<li class="instructions">&emsp;&ensp; In this section, you will a group of colored boxes, and your job is to say which color they are
+	  	</li>
+	  	<li class="instructions"> &emsp;&ensp; Try to speak clearly, and take as much time as you need
+	  	</li>
+	  	<li class="instructions"> &emsp;&ensp; The color options are red, orange, yellow, green, blue, and purple
+	  	</li>
+	  	<li class="instructions">
+	  	 &emsp;&ensp; When you're ready to start, click the button below and you will be prompted on when to start talking!
+	  	</li>
+	  </ul>
+	{{/equal}}
+	{{#equal section 3}}
+	  <ul>
+	  	<li class="instructions">&emsp;&ensp; In this section, you will be asked a question, and should choose the picture that answers the question
+	  	</li>
+	  	<li class="instructions"> &emsp;&ensp; If you have trouble understanding the question, you can repeat the question
+	  	</li>
+	  	<li class="instructions">
+	  	 &emsp;&ensp; When you're ready to start, click the button below and your time will start running!
+	  	</li>
+	  </ul>
+	{{/equal}}
 </div>
 
 <div class="center">

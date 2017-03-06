@@ -8,10 +8,25 @@
   <div class="center">
   	<h2> Instructions before starting </h2>
   </div>
-  <p>&emsp;&ensp;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id lectus lectus. Nunc vel dui leo. Donec semper mauris sed cursus gravida. Aenean ornare gravida nulla, eu tincidunt tellus tristique vitae. Aenean nec convallis orci. Aliquam urna neque, dignissim id dolor et, elementum pharetra nisl. Sed vel eleifend mi, in venenatis orci. Mauris quis ipsum vulputate, laoreet nibh a, iaculis orci. Pellentesque eget mi eu eros dictum dapibus. Etiam posuere libero ligula, in placerat ligula luctus et. Morbi vel augue sem. Cras in iaculis leo, ut consectetur est.</p>
+  <ul>
+  	<li class="instructions">&emsp;&ensp;This test has 3 sections, each of which are timed. Don't worry too much about the time, as getting the questions right matters more
+  	</li>
+  	<li class="instructions"> &emsp;&ensp; Each section will have specific instructions before you start
+  	</li>
+  	<li class="instructions">
+  	 &emsp;&ensp; When you're ready, fill out the student's name and your email below, and then press the button to start the first section!
+  	</li>
+  </ul>
 </div>
 
-
-<div class="center">
-	<a type="button" class="btn btn-hg btn-embossed btn-inverse" href="/test/{{test}}/startSection/1">Start the test!</a>
-</div>
+<form action="/test/{{test}}/startSection/1" method="get">
+	<div class="center">
+		<input type="text" name="name" class="form-control input-lg" style="width: 50%" placeholder="Name" value="gabe" required/>
+	</div>
+	<div class="center">
+		<input type="text" name="email" class="form-control input-lg" style="width: 50%; margin-top:10px;" placeholder="Email" value="gabe@gabe.com" required/>
+	</div>
+	<div class="center">
+		<button class="btn btn-hg btn-inverse pull-left info"> Start the test!</button>
+	</div>
+</form>

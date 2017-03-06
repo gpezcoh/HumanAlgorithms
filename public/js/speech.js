@@ -26,6 +26,7 @@ function speak(limit,ans){
 	lim = limit - 0;
 	recognition.start();
   	console.log('Ready to receive a color command.');
+  	startTimer();
 }
 
 function sendCorrect(ans){
@@ -39,7 +40,7 @@ function stop(){
 	if(answers.length > 1){
 		answers = answers.join(" ").split(" ");
 	}
-	else{
+	else if (answers.length === 1){
 		answers = answers[0].split(" ");
 	}
 	// if(answers.length !== lim){
@@ -49,6 +50,7 @@ function stop(){
 	console.log(answers)
 	var output = document.getElementById('speechAnswer');
 	document.getElementById('speechAnswer').setAttribute("value", answers);
+	endTimer();
 }
 
 function reconcileAnswers(ans){

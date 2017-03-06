@@ -8,12 +8,15 @@ var TestSchema = new Schema({
 	correct: Number,
 	total: Number,
 	email: String,
+	name: String,
 	// questions: [Question],
 	questions: [{type: Schema.Types.ObjectId, ref: 'Question'}],
 	sections: Number,
 	sectionProgress: Number,
 	sectionTotal: Number,
-	sectionLengths: [Number]
+	sectionLengths: [Number],
+	time: Number,
+	currentQuestion: Number
 });
 
 // TestSchema.methods.addQuestions = function(sections) {

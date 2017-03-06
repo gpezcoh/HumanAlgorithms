@@ -142,10 +142,12 @@ function calculate(test,orig,answers){
 router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 	Test.findById(req.params.test).populate('questions').exec(function(err, test) {
 		if(req.params.sectionNumber - 0 === 2){
-			console.log(req.body.questions)
-			console.log(req.body.speechAnswer)
+			// console.log(req.body.questions)
+			// console.log(req.body.speechAnswer)
 			test = calculate(test,req.body.questions,req.body.speechAnswer)
 			test.sectionProgress++;
+			test.time += (req.body.time - 0);
+			console.log("time = " + test.time)
 			test.save();
 			res.render('sectionEnd', {
 		        section: req.params.sectionNumber,
@@ -157,12 +159,12 @@ router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 		else{
 			test.total++;
 			test.sectionProgress++;
+			test.time += (req.body.time - 0);
 			if(req.body.correctAnswer === req.body.answer){
 				test.correct++;
 			}
+			console.log("time = " + test.time)
 			test.save();
-			console.log(test.questions)
-			console.log(req.params.sectionNumber)
 			if(test.questions.length && test.questions[0].section === req.params.sectionNumber-0){
 				var question = test.questions.shift()
 				res.render('questions', {

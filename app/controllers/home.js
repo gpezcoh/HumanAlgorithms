@@ -30,11 +30,13 @@ router.get('/start', function (req, res, next) {
     correct: 0,
     total: 0,
     email: "",
+    name: "",
     questions: [],
     sections: 1,
     sectionProgress: 0,
     sectionTotal: 0,
-    sectionLengths: [4,1,4]
+    sectionLengths: [4,1,4],
+    time: 0
   });
   Question.find({section: 1}, function(err,questions){
     addQuestions(test,questions,test.sectionLengths[0]);
@@ -71,6 +73,10 @@ router.get('/about', function (req, res, next) {
 
 router.get('/test/:test/startSection/:sectionNumber', function (req, res, next) {
   Test.findById(req.params.test).populate('questions').exec(function(err, test) {
+    if(req.query.name && req.query.email){
+      test.name = req.query.name;
+      test.email = req.query.email;
+    }
     if(test.questions.length){
       while(test.questions.length && test.questions[0].section < req.params.sectionNumber){
         test.questions.splice(0,1);
@@ -89,7 +95,9 @@ router.get('/test/:test/startSection/:sectionNumber', function (req, res, next) 
         res.render('results', {
           correct: test.correct,
           total: test.total,
-          test: test.id
+          test: test.id,
+          resultsBar: (test.correct/test.total) * 100 + "%",
+          time: Math.round(test.time)
         });
       }
       });
@@ -99,7 +107,8 @@ router.get('/test/:test/startSection/:sectionNumber', function (req, res, next) 
         correct: test.correct,
         total: test.total,
         test: test.id,
-        resultsBar: (test.correct/test.total) * 100 + "%"
+        resultsBar: (test.correct/test.total) * 100 + "%",
+        time: Math.round(test.time)
       });
     }
   });

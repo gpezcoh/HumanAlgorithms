@@ -1,19 +1,21 @@
 {{> navbar }}
 
 <script src="/js/index.js"></script>
-<script src="/js/test.js"></script>
+<script src="/js/timer.js"></script>
+<script src="/js/speech.js"></script>
 
 <!-- <h1>{{title}}</h1>
  -->
+
 {{#equal section 1}}
 	<script>
 		$( document ).ready(function() {
-    		  setTimeout(
+			startTimer();
+    		setTimeout(
 			    function() {
 			    	readFirstQuestion("{{title}}")
 			    }, 1000);
 		});
-		console.log("{{sectionProgress}}")
 	</script>
 {{/equal}}
 {{#equal section 2}}
@@ -34,10 +36,11 @@
 {{#equal section 3}}
 	<script>
 		$( document ).ready(function() {
-    		  setTimeout(
-			    function() {
-			    	readThirdQuestion("{{title}}")
-			    }, 1000);
+			startTimer();
+		  	setTimeout(
+		    function() {
+		    	readThirdQuestion("{{title}}")
+		    }, 1000);
 		});
 	</script>
 {{/equal}}
@@ -45,6 +48,7 @@
 <ul>
  	<form action="/test/{{test}}/inSection/{{section}}" method="POST">
  		<input name="correctAnswer" value="{{correctAnswer}}" hidden>
+ 		<input id="time" name="time" value="" hidden>
  		{{#equal section 1}}
  		<div class="progress">
   			<div class="progress-bar" style="width: {{sectionProgress}};"></div>
@@ -52,7 +56,7 @@
  		<div class="container">
 		{{#each answers}}
 			<span class="imageContainer">
-				<input type="image" class="section1Image" name="answer" value="{{this}}" src="{{this}}">
+				<input type="image" class="section1Image" name="answer" value="{{this}}" onclick="endTimer()" src="{{this}}">
 			</span>
 		 {{/each}}
 		 </div>
@@ -70,7 +74,7 @@
 		   	<input name="questions" value="{{questions}}" hidden>
 		   	<input id="speechAnswer" name="speechAnswer" value="test" hidden>
 		   	<div class="box-footer center">
-		   		<button class="btn btn-hg btn-inverse pull-left info" onclick=stop()> Done</button>
+		   		<button class="btn btn-hg btn-inverse pull-left info" onclick="stop()"> Done</button>
 	<!-- 	        <button type="submit" class="btn btn-embossed btn-primary pull-left">Submit</button> -->
 		    </div>
 	    </div>
@@ -82,7 +86,7 @@
  		<div class="container">
 		{{#each answers}}
 			<span class="imageContainer">
-				<input type="image" class="section1Image" name="answer" value="{{this}}" src="{{this}}">
+				<input type="image" class="section1Image" name="answer" value="{{this}}" onclick="endTimer()" src="{{this}}">
 			</span>
 		 {{/each}}
 		 </div>
