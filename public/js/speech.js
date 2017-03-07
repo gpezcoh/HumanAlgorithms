@@ -30,8 +30,7 @@ function speak(limit,ans){
 }
 
 function sendCorrect(ans){
-	correct = ans
-	console.log(ans)
+	correct = ans.split(" ")[0].split(",");
 }
 
 function stop(){
@@ -43,10 +42,11 @@ function stop(){
 	else if (answers.length === 1){
 		answers = answers[0].split(" ");
 	}
-	// if(answers.length !== lim){
-	// 	console.log("reconcile")
-	// 	answers = reconcileAnswers(answers);
-	// }
+	if(answers.length !== lim){
+		console.log("reconcile")
+		console.log(answers)
+		answers = reconcileAnswers(answers);
+	}
 	console.log(answers)
 	var output = document.getElementById('speechAnswer');
 	document.getElementById('speechAnswer').setAttribute("value", answers);
@@ -54,38 +54,42 @@ function stop(){
 }
 
 function reconcileAnswers(ans){
-	var problem;
 	for(x in ans){
 		if (ans[x] !== correct[x]){
-			problem = x
 			if(ans.length < correct.length){
-				return checkProblem(x,0)
+				console.log("add one")
+				console.log(x)
+				ans.splice(x,0,"wrong");
+				// return ans;
 			}
 			else{
-				return checkProblem(x,1)
+				console.log("remove one")
+				console.log(x)
+				ans.splice(x,1);
+				// return ans;
 			}
 		}
 	}
-	return true;
+	return ans;
 }
 
-function checkProblem(index,length){
-	testAnswers = answers
-	if(!length){
-		testAnswers.splice(index,0,correct[index]);
-		if(reconcileAnswers(testAnswers)){
-			console.log("Skipped")
-			return testAnswers
-		}
-	}
-	else{
-		testAnswers.splice(index,1)
-		if(reconcileAnswers(testAnswers)){
-			console.log("Extra")
-			return testAnswers
-		}
-	}
-}
+// function checkProblem(index,length){
+// 	testAnswers = answers
+// 	if(!length){
+// 		testAnswers.splice(index,0,correct[index]);
+// 		if(reconcileAnswers(testAnswers)){
+// 			console.log("Skipped")
+// 			return testAnswers
+// 		}
+// 	}
+// 	else{
+// 		testAnswers.splice(index,1)
+// 		if(reconcileAnswers(testAnswers)){
+// 			console.log("Extra")
+// 			return testAnswers
+// 		}
+// 	}
+// }
 
 recognition.onresult = function(event) {
   var color = event.results[0][0].transcript;
