@@ -21,7 +21,7 @@ module.exports = function (app) {
 
 router.get('/', function (req, res, next) {
   res.render('index', {
-    title: 'Human Algorithms'
+    title: 'Testr'
   });
 });
 
@@ -55,7 +55,8 @@ router.get('/start', function (req, res, next) {
 
 router.get('/start/test/:test', function (req, res, next) {
   res.render('start',{
-    test: req.params.test
+    test: req.params.test,
+    title: 'Testr'
   })
 });
 
@@ -68,7 +69,9 @@ function addQuestions(test,questions,number){
 }
 
 router.get('/about', function (req, res, next) {
-    res.render('about');
+    res.render('about', {
+          title: 'Testr'
+    })
 });
 
 router.get('/test/:test/startSection/:sectionNumber', function (req, res, next) {
@@ -88,7 +91,8 @@ router.get('/test/:test/startSection/:sectionNumber', function (req, res, next) 
         res.render('sectionInstructions', {
           section: req.params.sectionNumber,
           nextSection : req.params.sectionNumber - 0 + 1,
-          test: test.id
+          test: test.id,
+          title: 'Testr'
         });
       }
       else{
@@ -97,7 +101,8 @@ router.get('/test/:test/startSection/:sectionNumber', function (req, res, next) 
           total: test.total,
           test: test.id,
           resultsBar: (test.correct/test.total) * 100 + "%",
-          time: Math.round(test.time)
+          time: Math.round(test.time),
+          title: 'Testr'
         });
       }
       });
@@ -108,7 +113,8 @@ router.get('/test/:test/startSection/:sectionNumber', function (req, res, next) 
         total: test.total,
         test: test.id,
         resultsBar: (test.correct/test.total) * 100 + "%",
-        time: Math.round(test.time)
+        time: Math.round(test.time),
+        title: 'Testr'
       });
     }
   });

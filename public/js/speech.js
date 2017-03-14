@@ -34,23 +34,33 @@ function sendCorrect(ans){
 }
 
 function stop(){
-	manualStop = true;
-	recognition.stop();
-	if(answers.length > 1){
-		answers = answers.join(" ").split(" ");
+	if(!manualStop){
+		manualStop = true;
+		recognition.stop();
+		setTimeout(
+			function() {
+				if(answers.length > 1){
+					answers = answers.join(" ").split(" ");
+				}
+				else if (answers.length === 1){
+					answers = answers[0].split(" ");
+				}
+				if(answers.length !== lim){
+					console.log("reconcile")
+					console.log(answers)
+					answers = reconcileAnswers(answers);
+				}
+				console.log(answers)
+				var output = document.getElementById('speechAnswer');
+				document.getElementById('speechAnswer').setAttribute("value", answers);
+				endTimer();
+				console.log("this should work")
+			}, 1000);
+			setTimeout(
+				    function() {
+				    	document.getElementById('form').submit();
+				    }, 1000);
 	}
-	else if (answers.length === 1){
-		answers = answers[0].split(" ");
-	}
-	if(answers.length !== lim){
-		console.log("reconcile")
-		console.log(answers)
-		answers = reconcileAnswers(answers);
-	}
-	console.log(answers)
-	var output = document.getElementById('speechAnswer');
-	document.getElementById('speechAnswer').setAttribute("value", answers);
-	endTimer();
 }
 
 function reconcileAnswers(ans){

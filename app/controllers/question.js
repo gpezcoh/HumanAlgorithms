@@ -18,7 +18,8 @@ router.get('/createQuestion/:sectionNumber', function (req, res, next) {
 router.post('/createQuestion', function (req, res, next) {
 	if(req.body.section === "2"){
 		var question = new Question ({
-			title: req.body.color,
+			question: req.body.color,
+			title: 'Testr',
 			answers: [],
 			section: req.body.section - 0,
 			correctAnswer: req.body.word,
@@ -29,7 +30,8 @@ router.post('/createQuestion', function (req, res, next) {
 		var answers = parseAnswers([req.body.answer1, req.body.answer2, 
 		req.body.answer3, req.body.answer4]);
 		var question = new Question ({
-			title: req.body.title,
+			question: req.body.title,
+			title: 'Testr',
 			answers: answers,
 			section: req.body.section - 0,
 			correctAnswer: parseCorrect(req.body.correctAnswer),
@@ -40,7 +42,8 @@ router.post('/createQuestion', function (req, res, next) {
 	question.save(function (err) {
 	    if (err) return console.error(err);
 	    	res.render("createQuestion", {
-				created: true
+				created: true,
+				title: 'Testr'
 			})
     });
 });
@@ -103,13 +106,15 @@ router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 					section: req.params.sectionNumber,
 					questions: questions,
 					test: test.id,
-					total: limit
+					total: limit,
+					title: 'Testr'
 				});
 			}
 			else{
 				res.render('questions', {
 					section: req.params.sectionNumber,
-					title: question.title,
+					question: question.title,
+					title: 'Testr',
 					answers: question.answers,
 					correctAnswer: question.correctAnswer,
 					test: test.id,
@@ -121,7 +126,8 @@ router.get('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 	      res.render('sectionEnd', {
 	        section: req.params.sectionNumber,
 	       	nextSection : req.params.sectionNumber - 0 + 1,
-	       	test: test.id
+	       	test: test.id,
+	 		title: 'Testr'
 	      });
 	    }
 	});
@@ -153,6 +159,7 @@ router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 		        section: req.params.sectionNumber,
 		       	nextSection : req.params.sectionNumber - 0 + 1,
 		       	test: test.id,
+		       	title: 'Testr',
 		       	sectionProgress: (test.sectionProgress/test.sectionTotal) * 100 + "%"
 		    });
 		}
@@ -169,10 +176,11 @@ router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 				var question = test.questions.shift()
 				res.render('questions', {
 					section: req.params.sectionNumber,
-					title: question.title,
+					question: question.title,
 					answers: question.answers,
 					correctAnswer: question.correctAnswer,
 					test: test.id,
+					title: 'Testr',
 					sectionProgress: (test.sectionProgress/test.sectionTotal) * 100 + "%"
 				});
 		    }
@@ -181,6 +189,7 @@ router.post('/test/:test/inSection/:sectionNumber', function (req, res, next) {
 		        section: req.params.sectionNumber,
 		       	nextSection : req.params.sectionNumber - 0 + 1,
 		       	test: test.id,
+		       	title: 'Testr',
 		       	sectionProgress: (test.sectionProgress/test.sectionTotal) * 100 + "%"
 		      });
 		    }
